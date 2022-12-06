@@ -21,11 +21,14 @@ from sklearn.model_selection import train_test_split
 import seaborn as sns;  # importing statistical data visualization
 
 #1.feladat
+#urlt at kell irni lehet de valszeg jo ez ami itt van
+#ezeket a commenteket amugy toroljetek ki
 url = 'https://arato.inf.unideb.hu/ispany.marton/MachineLearning/Datasets/labor_exercise_wednesday1.csv';
 raw_data = urlopen(url);  # reading the first row with attribute names
 data = np.loadtxt(raw_data, skiprows=1, delimiter=",");  # reading numerical data from csv file
 del raw_data;
 
+#2. feladat
 X = data[:,0:10]
 y = data[:,10]
 df = pd.DataFrame(data=data,columns=['Var1', 'Var2', 'Var3','Var4',
@@ -34,7 +37,7 @@ df = pd.DataFrame(data=data,columns=['Var1', 'Var2', 'Var3','Var4',
 print('Number of records: ',df.size)
 print('Number of attributes: ', len(df.columns.drop('target')))
 print('Number of classes: ',len(df.groupby(by='target').size()))
-#2. feladat
+
 grouped_by_target = df.groupby(by='target');  # grouping by target
 
 mean_by_target = grouped_by_target.mean();
@@ -42,7 +45,7 @@ std_by_target = grouped_by_target.std();
 
 print('MEAN')
 print(mean_by_target) #átlag
-
+#ezt a kettot is lehet at kell de szovegbol kiderul
 print('STD')
 print(std_by_target) #szórás
 
@@ -62,10 +65,12 @@ sns.relplot(data=df, x='Var2', y='Var5',
 
 X_train, X_test, y_train, y_test = train_test_split(X, y,
                                                     test_size=0.3, random_state=2022)
+#test_size ot kell atirni ha nem 30% van a szovegbe
 
 #5. feladat
 
 class_tree = DecisionTreeClassifier(criterion = 'gini',max_depth = 4);
+# max_depth et kell itt atirni
 class_tree.fit(X_train, y_train);
 score_train_tree = class_tree.score(X_train, y_train);
 score_test_tree = class_tree.score(X_test, y_test);
@@ -78,7 +83,7 @@ score_test_logreg = logreg_classifier.score(X_test,y_test);
 ypred_logreg = logreg_classifier.predict(X_test);
 yprobab_logreg = logreg_classifier.predict_proba(X_test);
 
-
+#hidden_layer_sizeot kell atirni, itt 1 rejtett reteg 2 neuronnal van
 neural_classifier = MLPClassifier(hidden_layer_sizes=(1,2),
                                   activation='logistic',
                                   max_iter=1000);
@@ -126,6 +131,7 @@ without_letter = df.get(['Var1', 'Var2', 'Var3','Var4',
                                      'Var5','Var6','Var7','Var8','Var9','Var10'])
 
 kmeans3 = KMeans(n_clusters=3, random_state=2022);
+#n_clusters atirni
 kmeans3.fit(without_letter);
 labels3 = kmeans3.labels_;
 centers3 = kmeans3.cluster_centers_;
@@ -138,7 +144,8 @@ pca.fit(without_letter.values);
 data_pc = pca.transform(without_letter.values);
 centers_pc = pca.transform(centers3);
 
-Max_K = 31;  # maximum cluster number
+#Max_K atirni
+Max_K = 30;  # maximum cluster number
 SSE = np.zeros((Max_K-2));  #  array for sum of squares errors
 DB = np.zeros((Max_K-2));  # array for Davies Bouldin indeces
 optimal_cluster = 0
