@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon Dec  5 12:27:16 2022
+Created on Tue Dec  6 22:45:55 2022
 
-@author: kvcsmiki
+@author: jakabbernat
 """
 
 import numpy as np;  # importing numerical computing package
@@ -38,7 +38,7 @@ print('Number of records: ',df.size)
 print('Number of attributes: ', len(df.columns.drop('target')))
 print('Number of classes: ',len(df.groupby(by='target').size()))
 
-grouped_by_target = df.groupby(by='target');  # grouping by target
+grouped_by_target = df.groupby(by='target');  # 'célváltozó szerint csoportosítva'
 
 mean_by_target = grouped_by_target.mean();
 std_by_target = grouped_by_target.std();
@@ -65,12 +65,12 @@ sns.relplot(data=df, x='Var2', y='Var5',
 
 X_train, X_test, y_train, y_test = train_test_split(X, y,
                                                     test_size=0.3, random_state=2022)
-#test_size ot kell atirni ha nem 30% van a szovegbe
+#test_size ot kell atirni ha nem '30% tesztállomány' van a szovegbe
 
 #5. feladat
 
 class_tree = DecisionTreeClassifier(criterion = 'gini',max_depth = 4);
-# max_depth et kell itt atirni
+# max_depth et kell itt atirni, 'döntési fa 4 mélységgel'
 class_tree.fit(X_train, y_train);
 score_train_tree = class_tree.score(X_train, y_train);
 score_test_tree = class_tree.score(X_test, y_test);
@@ -131,7 +131,7 @@ without_letter = df.get(['Var1', 'Var2', 'Var3','Var4',
                                      'Var5','Var6','Var7','Var8','Var9','Var10'])
 
 kmeans3 = KMeans(n_clusters=3, random_state=2022);
-#n_clusters atirni
+#n_clusters atirni, 'K=3 kalszterszám'
 kmeans3.fit(without_letter);
 labels3 = kmeans3.labels_;
 centers3 = kmeans3.cluster_centers_;
@@ -144,7 +144,7 @@ pca.fit(without_letter.values);
 data_pc = pca.transform(without_letter.values);
 centers_pc = pca.transform(centers3);
 
-#Max_K atirni
+#Max_K atirni, 'klaszterszámot 30-ig'
 Max_K = 30;  # maximum cluster number
 SSE = np.zeros((Max_K-2));  #  array for sum of squares errors
 DB = np.zeros((Max_K-2));  # array for Davies Bouldin indeces
